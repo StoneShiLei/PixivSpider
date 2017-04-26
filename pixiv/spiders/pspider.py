@@ -7,15 +7,14 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 class PspiderSpider(scrapy.Spider):
-    name = "pspider1"
-    #爬虫名称标识，根据需要复制后修改标识名：pspider6、pspider7、pspider8
+    name = "pspider"
     #allowed_domains = ["pspider"]
     start_urls = ['https://accounts.pixiv.net/login?lang=zh&source=pc&view_type=page&ref=wwwtop_accounts_index']
 
     def __init__(self, name=None,*args, **kwargs):
         super(PspiderSpider, self).__init__(*args, **kwargs)
 
-        self.name = self_header.keyword(self.name[-1])
+        self.name = name
         self.max = int(self_header.pic_max())
         self.user = self_header.user()
         self.pw = self_header.pw()

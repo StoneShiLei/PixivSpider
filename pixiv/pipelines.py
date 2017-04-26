@@ -4,13 +4,13 @@ from scrapy.exceptions import DropItem
 from scrapy.http import Request
 from scrapy.utils.python import to_bytes
 import hashlib
+import os
 
 class MyImagesPipeline(ImagesPipeline):
 
     def get_media_requests(self, item, info):
         global path_name
-        path_name = item['name'].encode('GBK')
-        #文件夹名称windows下必须为GBK编码，否则乱码
+        path_name = item['name']
         for image_url in item['image_urls']:
             yield Request(image_url)
 

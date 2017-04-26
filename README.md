@@ -21,6 +21,5 @@ http://scrapy-chs.readthedocs.io/zh_CN/0.24/intro/install.html
 命令行下进入pixiv文件夹，输入fab start运行程序
 下载后的图片在Images文件夹下
 
-# 自定义并行数量
-进入pixiv/spiders/文件夹下，复制spider1，命名为spider6、spider7等
-打开复制后的spider，按照文件内注释修改name属性
+# 并行下载
+在options.ini文件内的name标签下，以制表符\t (TAB)来分割多个人物名称即可同时多人物下载图片***由于一个人物为一个进程，请视电脑配置量力而行***

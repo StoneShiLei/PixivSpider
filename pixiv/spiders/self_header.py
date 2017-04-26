@@ -13,9 +13,9 @@ def getConfig(section, key):
 
 
 
-def keyword(n):
-    keyword = getConfig("keyword", "name"+n)
-    return keyword
+def keyword():
+    keyword = getConfig("keyword", "name")
+    return keyword.split('\t')
 
 def pic_max():
     pmax = getConfig("pic","max")
@@ -28,3 +28,6 @@ def user():
 def pw():
     password = getConfig("acc","password")
     return password
+
+
+print keyword()

@@ -1,7 +1,11 @@
 # -*- coding:utf-8 -*-
 from fabric.api import local
-
+from pixiv.spiders import self_header
+import os
 def start():
-    #启动第1-5个爬虫 range(1,6)
-    for x in range(1,6):
-        local('start scrapy crawl pspider' + str(x))
+    name = self_header.keyword()
+    for kw in name:
+        if os.name == 'nt':
+            local('start scrapy crawl pspider -a name={}'.format(kw.encode('GBK')))
+        else:
+            local('start scrapy crawl pspider -a name={}'.format(kw))

@@ -4,18 +4,55 @@
 
 
 # 依赖：
-
-## python2.7
-
-## fabric
-使用pip install fabric进行安装
-
-## scrapy
-参照官方文档进行安装，http://scrapy-chs.readthedocs.io/zh_CN/0.24/intro/install.html
+python2.7
+fabric
+scrapy
+Pillow
+pypiwin32
 
 
-# 使用说明：
-按照options.ini文件内注释设置后，命令行下进入pixiv文件夹，输入fab start运行程序，下载后的图片在Images文件夹下
+# 安装依赖：
+##1.安装Python2.7
+根据操作系统选择32/64位python2.7.msi文件进行安装，注意勾选Add python.exe to Path以自动加入环境变量，python3用户请在安装python2.7后自行更改环境变量
 
-# 并行下载
-在options.ini文件内的name标签下，以制表符\t (TAB)来分割多个人物名称即可同时多人物下载图片，***由于一个人物为一个进程，请视电脑配置量力而行***
+##2.安装pip
+命令行进入get-pip.py文件所在目录(requirements)，在命令行输入python get-pip.py
+
+##3.Windows用户需要安装VC++9.0
+下载地址：http://www.microsoft.com/en-us/download/details.aspx?id=44266
+
+##4.安装依赖
+在同上目录下(requirements)，于命令行输入pip install -r requirements.txt
+
+
+#定制搜索模式
+
+##[keyword]
+name = 角色1	角色2	角色3	……	角色12450
+;角色名，多个角色名使用制表符TAB（\t）分割开
+
+##[pic]
+max = 20
+;图集模式关闭为图片数量，开启则为图集数量，数值越大图片越多
+multiple = y
+;y/n 图集模式，是否下载图集内其他图片，关闭则只下载图集封面页
+
+##[acc]
+username = youracc@hulu.com
+password = yourpassword
+;P站账号密码
+
+##[mode]
+**--数据删除--** = y
+;y/n 是否开启--数据删除--搜索
+
+smode = n
+;f/n 完全一致/部分一致搜索
+
+
+#使用方法
+在options.ini文件内设置好想要的搜索模式以及搜索关键字后，使用cmd、powershell等命令行工具进入fabfile.py文件所在目录，输入fab start，回车
+
+
+#注意事项
+请使用文本编辑器或IDE软件打开options.ini,以防选项输入错误，多角色搜索以及图集搜索会对电脑配置造成一定压力，使用**--数据删除--**模式搜索时，必须确认P站账号密码输入正确，否则无法正常运行

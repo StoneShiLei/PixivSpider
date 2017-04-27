@@ -1,0 +1,5 @@
+Fabric==1.13.2
+Pillow==4.1.0
+pypiwin32==219
+pyOpenSSL==16.2.0
+Scrapy==1.3.2

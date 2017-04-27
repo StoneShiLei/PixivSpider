@@ -29,5 +29,24 @@ def pw():
     password = getConfig("acc","password")
     return password
 
+def smode():
+    smode = getConfig("mode","smode")
+    if smode == "f":
+        return "s_mode=s_tag_full"
+    elif smode == "n":
+        return "s_mode=s_tag"
+    else:
+        raise ValueError
 
-print keyword()
+def r18():
+    r18 = getConfig("mode","r18")
+    if r18 == "y":
+        return "&r18=1"
+    elif r18 == "n":
+        return ""
+    else:
+        raise ValueError
+
+def multiple():
+    multiple = getConfig("pic","multiple")
+    return multiple

@@ -1,0 +1,17 @@
+1.安装Python2.7
+根据操作系统选择32/64位python2.7.msi文件进行安装，注意勾选Add python.exe to Path以自动加入环境变量
+
+
+2.安装pip
+命令行进入get-pip.py文件所在目录，在命令行输入python get-pip.py
+
+
+3.Windows用户需要安装VC++9.0
+下载地址：http://www.microsoft.com/en-us/download/details.aspx?id=44266
+
+
+4.安装依赖
+在同上目录下，于命令行输入pip install -r requirements.txt
+
+
+5.依赖安装结束

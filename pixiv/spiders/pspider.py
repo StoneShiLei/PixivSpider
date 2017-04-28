@@ -57,23 +57,25 @@ class PspiderSpider(scrapy.Spider):
             pixiv['name'] = self.name.decode('UTF8').encode('GBK')
         else:
             pixiv['name'] = self.name
-
+        id_dict = self_header.get_id_dict(response)
         if self.multiple == 'y':
             multiple = response.xpath("//a[@class='work  _work manga multiple ']/@href").extract() + response.xpath("//a[@class='work  _work multiple ']/@href").extract()
             work = response.xpath("//a[@class='work  _work ']/@href").extract()
             for wurl in work:
                 wid = re.search(r"(?<=id=).+?(?=$)",wurl,re.M).group(0)
-                img_master__url = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id={}'.format(wid)
-                yield scrapy.Request(img_master__url,meta={'pixiv':pixiv},callback=self.get_img)
+                if int(id_dict[wid]) >= self_header.get_star():
+                    img_master__url = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id={}'.format(wid)
+                    yield scrapy.Request(img_master__url,meta={'pixiv':pixiv},callback=self.get_img)
 
             for murl in multiple:
                 mid = re.search(r"(?<=id=).+?(?=$)",murl,re.M).group(0)
-                img_master__url = 'https://www.pixiv.net/member_illust.php?mode=manga&illust_id={}'.format(mid)
-                yield scrapy.Request(img_master__url,meta={'pixiv':pixiv},callback=self.get_img)
+                if int(id_dict[mid]) >= self_header.get_star():
+                    img_master__url = 'https://www.pixiv.net/member_illust.php?mode=manga&illust_id={}'.format(mid)
+                    yield scrapy.Request(img_master__url,meta={'pixiv':pixiv},callback=self.get_img)
 
         elif self.multiple == 'n':
             imageUrls150 = response.xpath("//div[@class='_layout-thumbnail']/img/@data-src").extract()
-            pixiv['image_urls'] = [url.replace('/c/150x150', '') for url in imageUrls150]
+            pixiv['image_urls'] = [url.replace('/c/150x150', '') for url in imageUrls150 if int(id_dict[re.findall("(.+?)_",url.split('/')[-1])[0]]) >= self_header.get_star()]
             yield pixiv
 
 

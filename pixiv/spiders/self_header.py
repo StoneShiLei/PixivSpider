@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import ConfigParser
 import os
-from time import time,localtime,strftime
+import re
 import codecs
 
 def getConfig(section, key):
@@ -50,3 +50,14 @@ def r18():
 def multiple():
     multiple = getConfig("pic","multiple")
     return multiple
+
+def get_star():
+    star = getConfig("star","star")
+    return int(star)
+
+def get_id_dict(response):
+    id = map(lambda x: re.search(r"(?<=id=).+?(?=$)", x, re.M).group(0),
+             response.xpath("//a[@class='bookmark-count _ui-tooltip']/@href").extract())
+    star = response.xpath("//a[@class='bookmark-count _ui-tooltip']/text()").extract()
+    id_dict = dict(zip(id, star))
+    return id_dict

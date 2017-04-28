@@ -8,4 +8,4 @@ def start():
         if os.name == 'nt':
             local('start scrapy crawl pspider -a name={}'.format(kw.encode('GBK')))
         else:
-            local('start scrapy crawl pspider -a name={}'.format(kw))
+            local('scrapy crawl pspider -a name={} >out.file 2>&1 &'.format(kw.encode('UTF8')))

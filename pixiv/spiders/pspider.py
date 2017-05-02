@@ -16,10 +16,7 @@ class PspiderSpider(scrapy.Spider):
 
     def __init__(self, name=None,*args, **kwargs):
         super(PspiderSpider, self).__init__(*args, **kwargs)
-        if os.name == "nt":
-            self.name = name.decode("GBK").encode("UTF8")
-        else:
-            self.name = name
+        self.name = name
         self.max = int(self_header.pic_max())
         self.user = self_header.user()
         self.pw = self_header.pw()
@@ -48,15 +45,16 @@ class PspiderSpider(scrapy.Spider):
     def imgorder(self,response):
         pages = range(1,self.max/20+1)
         for page in pages:
-            pageUrl ='http://www.pixiv.net/search.php?word={}&{}&order=date_d{}&p={}'.format(urllib.quote(self.name),self_header.smode(),self_header.r18(),str(page))
+            pageUrl ='http://www.pixiv.net/search.php?word={}&{}&order=date_d{}&p={}'.format(self.name,self_header.smode(),self_header.r18(),str(page))
             yield scrapy.Request(pageUrl,callback=self.get_page)
 
     def get_page(self,response):
         pixiv = PixivItem()
         if os.name == 'nt':
-            pixiv['name'] = self.name.decode('UTF8').encode('GBK')
+            pixiv['name'] = urllib.unquote(self.name).decode('UTF8')
+
         else:
-            pixiv['name'] = self.name
+            pixiv['name'] = urllib.unquote(self.name)
         id_dict = self_header.get_id_dict(response)
         if self.multiple == 'y':
             multiple = response.xpath("//a[@class='work  _work manga multiple ']/@href").extract() + response.xpath("//a[@class='work  _work multiple ']/@href").extract()

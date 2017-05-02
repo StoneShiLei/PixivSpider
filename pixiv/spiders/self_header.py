@@ -3,6 +3,7 @@ import ConfigParser
 import os
 import re
 import codecs
+from collections import defaultdict
 
 def getConfig(section, key):
     config = ConfigParser.ConfigParser()
@@ -58,6 +59,9 @@ def get_star():
 def get_id_dict(response):
     id = map(lambda x: re.search(r"(?<=id=).+?(?=$)", x, re.M).group(0),
              response.xpath("//a[@class='bookmark-count _ui-tooltip']/@href").extract())
+    #id = [re.findall("(.+?)_",url.split('/')[-1])[0] for url in response.xpath("//div[@class='_layout-thumbnail']/img/@data-src").extract()]
     star = response.xpath("//a[@class='bookmark-count _ui-tooltip']/text()").extract()
-    id_dict = dict(zip(id, star))
+    id_dict = defaultdict(int)
+    for index,i in enumerate(id):
+        id_dict[i] = star[index]
     return id_dict
